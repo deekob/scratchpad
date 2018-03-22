@@ -87,7 +87,7 @@ To Deploy the Function we simply do the following:
 
 Thats it - pretty easy and a great way to Build out your function quickly.
 
-##Extra Marks##
+## Extra Marks ## (Optional)
 
 - add some error handling to your function 
 - try changing the request to accept JSON payload instead of a query string parameter hand deserialise it
