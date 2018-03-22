@@ -10,7 +10,6 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
 - [A Cloud 9 environment already set up](https://docs.aws.amazon.com/cloud9/latest/user-guide/setup-express.html)
   - Lamda Roles have been setup
   - Default region has been configured
-- Cloud9 
 
 ### Creating a Lambda Function
 
@@ -18,7 +17,7 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
   - You will see a Lambda section with Local and Remote Functions
   - We are going to create a Local Function
 - Click on the Lamda icon.
-  - A dialog will appear "Create servlerless Application"
+  - A dialog will appear "Create Servlerless Application"
   - Enter Function Name - "MyFirstFunction" - Application Name Field will mirror this -> Next
   - Select Node.js 6.10 and choose the "empty-Nodejs" blueprint -> Next
   - Add an API Gatway trigger with Resource path /isPalindrome
@@ -29,10 +28,11 @@ So now you will have a Function called MyFirstFunction that will be executed whe
 The editor will open in the index.js of your function - so lets write some code.
 
 **Write or paste in the following code block**
+(replace anything thats already there)
 
 ```
 exports.handler = (event, context, callback) => {
-    // simple function to calculate if passed in event string is Palindromic
+    // simple function to calculate if passed in string is Palindromic
     const inputString = event.inputWord;
     const reversyString = inputString.split('').reverse().join('');
     const isPalindrome = (inputString === reversyString);
@@ -47,7 +47,7 @@ exports.handler = (event, context, callback) => {
 Now we have a function lets run/debug it and test that it works.
 - hit the Run Button at the top of the screen (The run/debug panel will appear)
 - hit the Run button inside the run panel ( you should see an error - "cannot read property "split" undefined" ).  This is because we havent passed in a string value for the word we want to test.  Lets do that by using the payload area.
-  - add the following Json into the Payload: textarea  ```{"inputWord":"racecar"}```
+  - add the following Json into the Payload: Textarea  ```{"inputWord":"racecar"}```
   - hit the run button again and you should get the output "racecar is a Palindrome"
   - now add a negative test by changing the payload to test another word and see that working ".... is not a Palindrome"
   - **Extra Marks** - do the same using breakpoints and changing the value of the inputWord inside the debugger.
@@ -58,7 +58,7 @@ Now we have successfuly built and tested or Lambda Paidrome checker - lets expos
 ### Debuging Api Gateway Endpoint   
 
 We can also test API gateway endpoint locally - We need to first change our Lambda function so it will work behind an API-Gateway endpoint, by changing how it handles its requests and responses
-   - change line 3 of the function to read the queryString Parameters - (we will use query strings for request data)
+   - change line 3 of the function to read the queryString Parameters - (we will use query strings for request data - you could also use the body of the request and deserialise the JSON out of that)
    ```const inputString = event.queryStringParameters.string;
    ```
    - change the callback method to be Api Gateway friendly
@@ -83,9 +83,17 @@ So we have our Palidrome checker exposed from an API-Gateway endpoint - the last
 To Deploy the Function we simply do the following:
 - Navigate to the "AWS Resources" section on the right hand navigation bar 
 - Right Click on the function and select Deploy
-- To test you can either use Cloud9 and the APIGateway (remote) option - or open up the AWS console and test using the APIGateway service UI
+- To test you can either use Cloud9 and the APIGateway (remote) option - or open up the AWS console and test using the API Gateway service Stage URL
 
-Done - congrats - if you have time have a play around with with function add some error handling , try changing the request to accept Json payload instead of a query string parameter
+Thats it - pretty easy and a great way to Build out your function quickly.
+
+##Extra Marks##
+
+- add some error handling to your function 
+- try changing the request to accept JSON payload instead of a query string parameter hand deserialise it
+- Inpect the yml file and see it is completely SAM compliant - try and use SAM on the command line to deploy it.
+
+
 
 
 
