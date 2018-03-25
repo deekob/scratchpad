@@ -11,6 +11,11 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
   - Lamda Roles have been setup
   - Default region has been configured
 
+### Setup (if no cloud 9 environment is available)
+- Navigate to AWS Console -> CloudFormation
+- Create New Stack using https://s3-us-west-2.amazonaws.com/cloud9-debug-demo-sydsummit/CFCloud9Debug.json
+- Next -> Enter Stack Name of ```Cloud9-debug-demo``` Next -> Next-> Create ( wait approx 2-3 mins for CLoud9 Environment to be created)
+
 ### Creating a Lambda Function
 
 - Open Cloud9 IDE, Navigate to the "AWS Resources" section on the right hand navigation bar.
@@ -87,13 +92,15 @@ To Deploy the Function we simply do the following:
 
 Thats it - pretty easy and a great way to Build out your function quickly.
 
-## Extra Marks ## (Optional)
+### Extra Marks ## (Optional)
 
 - add some error handling to your function 
 - try changing the request to accept JSON payload instead of a query string parameter hand deserialise it
 - Inpect the yml file and see it is completely SAM compliant - try and use SAM on the command line to deploy it.
 
-
+### Tear Down
+- Login to AWS console -> CLoudFormation
+- Select ```Cloud9-debug-demo``` -> Actions -> Delete Stack
 
 
 
