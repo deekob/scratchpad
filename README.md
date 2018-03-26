@@ -14,7 +14,7 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
 ### Setup (if no cloud 9 environment is available)
 - Navigate to AWS Console -> CloudFormation
 - Create New Stack using https://s3-us-west-2.amazonaws.com/cloud9-debug-demo-sydsummit/CFCloud9Debug.json
-- Next -> Enter Stack Name of ```Cloud9-debug-demo``` Next -> Next-> Create ( wait approx 2-3 mins for CLoud9 Environment to be created)
+- Next -> Enter Stack Name of ```Cloud9-debug-demo``` Next -> Next-> Create ( wait approx 2-3 mins for Cloud9 Environment to be created)
 
 ### Creating a Lambda Function
 
@@ -64,10 +64,12 @@ Now we have successfuly built and tested or Lambda Paidrome checker - lets expos
 
 We can also test API gateway endpoint locally - We need to first change our Lambda function so it will work behind an API-Gateway endpoint, by changing how it handles its requests and responses
    - change line 3 of the function to read the queryString Parameters - (we will use query strings for request data - you could also use the body of the request and deserialise the JSON out of that)
-   ```const inputString = event.queryStringParameters.string;
+   ```
+   const inputString = event.queryStringParameters.string;
    ```
    - change the callback method to be Api Gateway friendly
-   ```callback(null, {
+   ```
+   callback(null, {
         statusCode: 200,
         headers: {
             'Content-Type': 'application/json',
