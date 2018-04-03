@@ -3,16 +3,10 @@
    Build a simple Lambda Function that sits behind an API gateway endpoint 
 
 ## Introduction
-This demo aims to show users how easy it is to create, build, test and deploy a Lamda function behind an API Gateway EndPoint.  The created Lamda function will be created from one of the existing templates in the [SAM repository]( https://github.com/awslabs/serverless-application-model/tree/master/examples/).  This will be initially run locally in Cloud9, where we will debug the application to understand it, change it to suit our needs and then deploy in into AWS.
+This demo aims to show users how easy it is to create, build, test and deploy a Lamda function behind an API Gateway Endpoint.  The Lamda function will be created from one of the existing templates in the [SAM repository]( https://github.com/awslabs/serverless-application-model/tree/master/examples/).  This will initially run locally in Cloud9, where we will debug the application to understand it, change it to suit our needs and then deploy in into AWS.
 
-### Prerequisites
-- An AWS account
-- [A Cloud 9 environment already set up](https://docs.aws.amazon.com/cloud9/latest/user-guide/setup-express.html)
-  - Lamda Roles have been setup
-  - Default region has been configured
-
-### Setup (if no cloud 9 environment is available)
-- Navigate to AWS Console -> CloudFormation
+### Setup
+- Navigate to AWS Console -> CloudFormation,
 - Create New Stack using https://s3-us-west-2.amazonaws.com/cloud9-debug-demo-sydsummit/CFCloud9Debug.json
 - Next -> Enter Stack Name of ```Cloud9-debug-demo``` Next -> Next-> Create ( wait approx 2-3 mins for Cloud9 Environment to be created)
 
@@ -26,7 +20,7 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
   - Enter Function Name - "MyFirstFunction" - Application Name Field will mirror this -> Next
   - Select Node.js 6.10 and choose the "empty-Nodejs" blueprint -> Next
   - Add an API Gatway trigger with Resource path /isPalindrome
-  - For this excercice set the security to none ( just a demo )
+  - For this excercice set the security to none ( **Only for the demo purposes** The best practices is to configure a security mechanism for your endpoint )
   - Next -> Finish
 
 So now you will have a Function called MyFirstFunction that will be executed when the /isPalindrome endpoint is hit.
@@ -49,16 +43,16 @@ exports.handler = (event, context, callback) => {
 ```
 ### Debuging Lambda
 
-Now we have a function lets run/debug it and test that it works.
+Now we have a function, let's run/debug it and test that it works.
 - hit the Run Button at the top of the screen (The run/debug panel will appear)
-- hit the Run button inside the run panel ( you should see an error - "cannot read property "split" undefined" ).  This is because we havent passed in a string value for the word we want to test.  Lets do that by using the payload area.
+- hit the Run button inside the run panel ( you should see an error - "TypeError: Cannot read property "split" of undefined" ).  This is because we havent passed in a string value for the word we want to test.  Lets do that by using the payload area.
   - add the following Json into the Payload: Textarea  ```{"inputWord":"racecar"}```
   - hit the run button again and you should get the output "racecar is a Palindrome"
   - now add a negative test by changing the payload to test another word and see that working ".... is not a Palindrome"
   - **Extra Marks** - do the same using breakpoints and changing the value of the inputWord inside the debugger.
    - tip - make sure you select the debug icon before hitting run.
 
-Now we have successfuly built and tested or Lambda Paidrome checker - lets expose it to the world using the API-Gateway endpoint we created earlier
+Now we have successfuly built and tested the Lambda Paidrome checker - let's now expose it to the world using the API-Gateway endpoint we created earlier
 
 ### Debuging Api Gateway Endpoint   
 
@@ -98,10 +92,10 @@ Thats it - pretty easy and a great way to Build out your function quickly.
 
 - add some error handling to your function 
 - try changing the request to accept JSON payload instead of a query string parameter hand deserialise it
-- Inpect the yml file and see it is completely SAM compliant - try and use SAM on the command line to deploy it.
+- Inpect the .yml file and see it is completely SAM compliant - try and use SAM on the command line to deploy it.
 
 ### Tear Down
-- Login to AWS console -> CLoudFormation
+- Login to AWS console -> CloudFormation
 - Select ```Cloud9-debug-demo``` -> Actions -> Delete Stack
 
 
