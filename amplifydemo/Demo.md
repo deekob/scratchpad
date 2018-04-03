@@ -1,6 +1,6 @@
 ## Amplify Demo
 
-This Demo will build out a simple react native mobile app along with the aws mobile hub for the backend.  It will be deployed to any phone/simulator using expo and then features will be incrementally added to the app using the aws-amplify mobile library.
+This Demo will build out a simple react native mobile app using aws mobile hub for the backend.  It will be deployed to a simulator running https://expo.io/ were features will be incrementally built and deployed to the app using the **Aws-Amplify** mobile library.
 
 ### Build the scaffolding
 
@@ -14,8 +14,7 @@ This Demo will build out a simple react native mobile app along with the aws mob
 - Create New Stack using https://s3-us-west-2.amazonaws.com/cloud9-amplify-demo-sydsummit/CFCloud9Amplify.json
 - Next -> Enter Stack Name of ```cloud9-amplify-demo``` Next -> Next-> Create ( wait approx 2-3 mins for Cloud9 Environment to be created)
 - Once complete ( around 1 - 2 mins) Navigate to Services -> Cloud9 -> Open IDE for the ```cloud9-apmlify-demo``` environment
-- Once the environment is open, a git repo will be cloned inside a terminal window - once this is finished inside the terminal window  ```cd Cloud9Amplify/DemoApp``` - *this directory contains the react native scaffolding for the app we are going to build*
-
+- Once the environment is open, a git repo will be cloned inside a terminal window - once this is finished inside the terminal window ```cd Cloud9Amplify/DemoApp``` - **this directory contains the react native scaffolding for the app we are going to build**
 
 ## Environment setup
 The first thing we have to do is restore the dependencies into the environment and the tools we are going to use: these tools will be the awsmobile-cli and the expo server. Hint: this is a good chance to test out the copy and paste function of the following block into Cloud9 terminal window.
@@ -26,129 +25,87 @@ npm install -g yarn
 yarn install
 npm install -g awsmobile-cli
 npm install -g exp
-
-------
-
-nvm install 8
-npm i npm@4 -g
-npm install
-npm install -g awsmobile-cli
-npm install -g exp
+(maybe npm install)
 ```
 
-Now lets test that all works and we can deploy it to expo running in the simulator. Make sure you have a running simulator than 
+Now lets test that all works and we can deploy it to expo running in the simulator. Make sure you have a running simulator then run the following in the terminal tab. 
 
 ## Test Deployment
-```exp start
+```
+exp start
 Log in with Existing Account
 - UserName: SummitUser/Dem!234
 ```
 - Copy the the URL thats in the terminal window into the clipboard.
-- Switch to the Phone Simulator(or Phone) with Expo installed -> Click the + at the top right of screen -> Paste Url in.  (If your running from a phone intead of pasting a URL in you can use the QRCode instead 
+- Switch to the Phone Simulator with Expo installed -> Click the + at the top right of screen -> Paste Url in.  
 - App should open 
-- You should see the following text in the App "Open up App.js to start working..... "
+- You should see the following text in the App "Welcome: [NAME] to Sydney Summit 2018"
 Lets change this page and see how fast it deploys
- - Open up App.js inside Cloud9 -> Change the text to something else -> Save -> watch it deploy to the simulator ( nice )
-
+ - Open up App.js inside Cloud9 -> Replace [NAME] with your name -> Save -> watch it deploy to the simulator
 
 ### Start Adding Features
 
-Now we have a templated app that we can deploy to the simulator very easily - so lets now plug this into the AWS Mobile Hub and start adding features using aws-amplify. The features we are going to add for this demo is Analystics and API access - however you can also add: Authentication, PubSub, PushNotifications, Storage..
+Now we have a templated app that we can deploy to the simulator very easily - lets plug this into the AWS Mobile Hub and start adding features using **aws-amplify**. The features we are going to add for this demo are Analytics and API access - however you can also add: Authentication, PubSub, PushNotifications and cloud storage.  With more being released all the time.
 
+## Adding Analytics and a SignIn Page
 
-## Add Analytics
-
-- Stop the expo server packager 'CTRL-C'
+- Stop the expo server packager ```CTRL-C```
 - Initialise the awsmobile_cli that was installed earlier.
 ```
 awsmobile configure
  - ? accessKeyId = ////// 
  - ? SecretAccessKey = TBD
  - ? region = us-west-2
+```
+Followed by the following which will create a Mobile-Hub service for your app and bring down the aws-amplify dependancies
+```
 awsmobile init
  - Accept defaults for src / dist / build command and start command
  - Change the project name to 'summit-demo-app'
 ```
+Now lets enable some Mobile Hub services and code in the neccesary aws-amplify bindings to call them, to do this we simply by typing in ```awsmobile features``` and selecting what we need.  For this demo make sure analytics and user-signin are enabled after which perform an ```awsmobile push``` to resync the backend.
 
-In the terminal
-```
-awsmobile analytics enable - (this is enabled by default)
-awsmobile push
-```
-In the App modify App.js and add the following at line 3 , under the imports- 
+Now Modify App.js so the imports and main class look like the following.
 
 ```
-import Amplify, { Analytics } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
-Analytics.record('MyEvent');
-
-```
-
-Now lets start the app again in the simulator ```exp start``` -> once its running lets have a look at what the custom analytic we just added looks like. To do this we need to go into the AWS Console -> Mobile Hub -> click on the summit-demo-app -> Analytics ( top RHS of screen ) -> Analytics ( LHS ) -> Events - we can select our 'MyEvent' and see how many times its been hit  
-We can change the event and add some attributes - so change the line ```Analytics.record('MyEvent');```
-to ```Analytics.record('MyEvent', { location: 'summit', time: 'today' });``` -> save the change an wait for it to be deployed - > then look at the anaytics console again.
-
-
-
-## Adding Signin/Signup to your app
-Now lets add some signin/signup functionality to our new app - we will use aws amplify and the aws mobile cli to provision the backend.
-
-- Stop the expo server packager 'CTRL-C'
-
-
-
-### add an API to your APP.
-Now that we hav e installed Amplify it is easy to build out backend features for your app - lets start with a simple APII
-```
-awsmobile cloud-api enable
-awsmobile push
-```
-
-### add user signin
-```
-awsmobile user-signin enable
-awsmobile push
-```
-then
-
-```
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Amplify, { Analytics, Auth } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react-native'
 import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
+Amplify.configure(aws_exports); 
+Analytics.record('myEvent'); //this is a custom event
+  
+
+class App extends React.Component {
+  render() {
+    
+    return (
+       <Authenticator>
+      <View style={styles.container}>
+        <Text>Welcome: [NAME] to Sydney Summit 2018</Text> 
+      </View>
+       </Authenticator>
+    );
+  }
+}
+
+export default withAuthenticator(App)
 ```
+What we have done here is imported the Analytics and Auth components ```import Amplify, { Analytics, Auth } from 'aws-amplify';``` and using a built in higher order component ```withAuthenticator``` we have wrapped or welcome text so its only displayed to an authenticated user.
 
-- check out new user pool
+Now lets start the app again in the simulator ```exp start``` -> once its running lets have a look at what the custom analytic we just added looks like. To do this we need to go into the AWS Console -> Mobile Hub -> click on the summit-demo-app -> Analytics ( top RHS of screen ) -> Analytics ( LHS ) -> Events - we can select our 'myEvent' and see how many times its been hit  
 
-```npm install```  - add missing libs
-
-App.js - change add signin/signup form 
-```
-
- 
-## Update the number of file system listeners – expo workaround
-```
-
-```
- 
-## install expo server - ##note: need the tunnel arg for Cloud 9
-```
+Next lets try and Sign-Up
 
 
-```
 
- 
-Once Expo server starts it displays a QR-code in the console
-Scan QR code with phone app
-App is deployed to phone
- 
-From there is simply a case of add whatever amplify feature you want – for my demo I was going to do these
-https://github.com/awslabs/aws-mobile-react-native-starter#use-features-in-your-app
 
 
 ### Tear Down
-- Inside Cloud 9 - remove the lambda ?
-- Deleoete the cloudformations for mobile hub . (which one ) and amplify-demo 
-- remove the mobile hub - :(
+ ```awsmobile delete``` - running this command from the terminal will delete the project
+- Delete the cloudformations for mobile hub . (which one ) and amplify-demo 
+
+
 
 
