@@ -5,7 +5,7 @@
 ## Introduction
 This demo aims to show users how easy it is to create, build, test and deploy a Lambda function behind an API Gateway Endpoint.  The Lambda function will be created from one of the existing templates in the [SAM repository]( https://github.com/awslabs/serverless-application-model/tree/master/examples/).  This will initially run locally in Cloud9, where we will debug the application to understand it, change it to suit our needs and then deploy in into AWS.
 
-### Setup
+### Setup - ** Note: resources will be created in us-west-2 **
 - Navigate to AWS Console -> CloudFormation,
 - Create New Stack using https://s3-us-west-2.amazonaws.com/cloud9-debug-demo-sydsummit/CFCloud9Debug.json
 - Next -> Enter Stack Name of ```Cloud9-debug-demo``` Next -> Next-> Create ( wait approx. 2-3 mins for Cloud9 Environment to be created)
