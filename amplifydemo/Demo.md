@@ -2,6 +2,10 @@
 
 This Demo will build out a simple react native mobile app using aws mobile hub for the backend.  It will be deployed to a simulator running https://expo.io/ were features will be incrementally built and deployed to the app using the **Aws-Amplify** mobile library.
 
+## Note Full instructions can be found in the code-commit repository https://git-codecommit.us-west-2.amazonaws.com/v1/repos/Summit-AmplifyDemo.  To access this:
+
+- Navigate to AWS Console -> CodeCommit -> Summit-AmplifyDemo (If its not there check the region is us-west-2) -> DemoApp -> Readme.md
+
 ### Build the scaffolding
 
 ### PreReqs
@@ -17,6 +21,8 @@ This Demo will build out a simple react native mobile app using aws mobile hub f
 - Once the environment is open, a git repo will be cloned inside a terminal window - once this is finished inside the terminal window ```cd Cloud9Amplify/DemoApp``` - **this directory contains the react native scaffolding for the app we are going to build**
 
 ## Environment setup
+* Note resources will be created in us-west-2 *
+
 The first thing we have to do is restore the dependencies into the environment and the tools we are going to use: these tools will be the awsmobile-cli and the expo server. Hint: this is a good chance to test out the copy and paste function of the following block into Cloud9 terminal window.
 
 ```
