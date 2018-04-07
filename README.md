@@ -59,7 +59,7 @@ Now we have successfully built and tested the Lambda Palindrome checker - let's 
 We can also test API-Gateway endpoint locally - We need to first change our Lambda function so it will work behind an API-Gateway endpoint, by changing how it handles its requests and responses
    - change line 3 of the function to read the queryString Parameters - (we will use query strings for request data - you could also use the body of the request and deserialise the JSON out of that)
    ```
-   const inputString = event.queryStringParameters.string;
+   const inputString = event.queryStringParameters.inputWord;
    ```
    - change the callback method to be API-Gateway friendly
    ```
