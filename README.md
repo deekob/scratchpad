@@ -13,8 +13,8 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
 
 
 ### Creating a Lambda Function
-- Once the Cloud9 environment has opened you will see a Folder Structure on the LHS that contains a folder called "isPalindrome" - Hint this is the function you are going to build out. You will also see a bash shell window that we will also use during this lab
-- In the bash shell cd into ```~/environment/isPalindrome```
+- Once the Cloud9 environment has opened you will see a Folder Structure on the LHS that contains a folder called "isPalindrome".
+- In the bash shell window (at the bottom) cd into ~/environment/isPalindrome
 - Select the "AWS Resources" section on the right-hand navigation bar.(it should pop out, if its not already visible)
   - You will see a Lambda section with Local and Remote Functions
   - We are going to create a Local Function
@@ -23,14 +23,14 @@ This demo aims to show users how easy it is to create, build, test and deploy a 
   - Enter Function Name - "isPalindrome" - Application Name Field will mirror this -> Next
   - Select Node.js 6.10 and choose the "empty-Nodejs" blueprint -> Next
   - When prompted to add a 'Function trigger' select API Gatway trigger with 'Resource path' /isPalindrome
-  - For this excercise set the security to none ( **Only for the demo purposes** The best practices is to configure a security mechanism for your endpoint )
+  - For this lab set the security to none ( Only for the lab purposes best practice is to configure a security mechanism for your endpoint )
   - Next -> Finish
 
 So now you will have a Function called isPalindrome that will be executed when the /isPalindrome endpoint is hit.
 The editor will open in the index.js of your function - so lets write some code.
 
 **Write or paste in the following code block**
-(replace anything thats already there)
+(replace EVERYTHING thats already there and dont forget to save once your done)
 
 ```
 exports.handler = (event, context, callback) => {
@@ -47,30 +47,33 @@ exports.handler = (event, context, callback) => {
 ### Debugging Lambda
 
 Now we have a function, let's run/debug it and test that it works.
-- hit the Run Button at the top of the screen (The run/debug panel will appear)
-- hit the Run button inside the run panel ( you should see an error - "TypeError: Cannot read property "split" of undefined" ).  This is because we havent passed in a string value for the word we want to test.  Lets do that by using the payload area.
-  - add the following Json into the Payload: TextArea  ```{"inputWord":"racecar"}```
-  - hit the run button again and you should get the output "racecar is a Palindrome"
-  - now add a negative test by changing the payload to test another word and see that working ".... is not a Palindrome"
-  
+- hit the Run Button at the top of the screen, beside "Preview". (The run/debug panel will appear)
+- hit the Run button inside the run panel ( you should see an error - "TypeError: Cannot read property "split" of undefined" ). This is because we havent passed in a string value for the word we want to test. Lets do that by using the payload area.
+- add the following Json into the Payload: TextArea {"inputWord":"racecar"}
+- hit the run button again and you should get the output racecar is a Palindrome
+- now add a negative test by changing the payload to test another word and see that working ".... is not a Palindrome"
+
 **adding BreakPoints and using a REPL Loop**
 To enable breakpoints, simply make sure the 'debug' icon is enabled beside the run button and you have a breakpoint set in the code in index.js
 
   - Once you have done this you can hit 'run' and the execution will stop on the breakpoint and a new 'debug' window will open, showing LocalVariables, Call Stack and any watches you have set.
-  - Change the value of "inputString" in the 'Local Variables' section and see how that is then reflected when you hit play to continue the execution.
-  - **Optional** - Cloud9 also has a REPL (Read-eval-print-loop) which you can access via the Immediate Tab. Try the previous excercise ( i.e changing the InputString value during program execution ) but this time use the Immeduate window when the execution as stopped on your breakpoint.
-  - hint - you must be stopped on a breakpoint for the change you make to be applied
+  - Change the value of "inputString" in the 'Local Variables' section and see how that is then reflected when you hit "resume" to continue the execution.
+  - **Optional** - Cloud9 also has a REPL (Read-eval-print-loop) which you can access via the Immediate Tab. Note: REPL is a simple, interactive environment that takes single expressions, evaluates them, and returns the result to the user; 
+           Try the previous excercise ( i.e changing the InputString value during program execution ) but this time use the Immediate window (beside bash window) when the execution has stopped on your breakpoint.
+           -HINT- update the value as if you where writing a line of code, you must be stopped on a breakpoint for the change you make to be applied
 
 Now we have successfully built and tested the Lambda Palindrome checker - let's now expose it to the world using the API-Gateway endpoint we created earlier
 
 ### Debugging API-Gateway Endpoint   
 
-We can also test API-Gateway endpoint locally - We need to first change our Lambda function so it will work behind an API-Gateway endpoint, by changing how it handles its requests and responses
-   - change line 3 of the function to read the queryString Parameters - (we will use query strings for request data - you could also use the body of the request and deserialise the JSON out of that)
+We can also test API-Gateway endpoint locally - We need to first change our Lambda function so it will work behind an API-Gateway endpoint, by changing how it handles its requests and responses.
+
+- change line 3 of the function to read the queryString Parameters - (we will use query strings for request data - you could also use the body of the request and deserialise the JSON)
+
    ```
    const inputString = event.queryStringParameters.inputWord;
    ```
-   - change the callback method to be API-Gateway friendly
+- change the callback method to be API-Gateway friendly
    ```
    callback(null, {
         statusCode: 200,
