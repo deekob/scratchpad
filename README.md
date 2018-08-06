@@ -54,13 +54,15 @@ Now we have a function, let's run/debug it and test that it works.
 - now add a negative test by changing the payload to test another word and see that working ".... is not a Palindrome"
 
 **adding BreakPoints and using a REPL Loop**
+
 To enable breakpoints, simply make sure the 'debug' icon is enabled beside the run button and you have a breakpoint set in the code in index.js
 
   - Once you have done this you can hit 'run' and the execution will stop on the breakpoint and a new 'debug' window will open, showing LocalVariables, Call Stack and any watches you have set.
   - Change the value of "inputString" in the 'Local Variables' section and see how that is then reflected when you hit "resume" to continue the execution.
   - **Optional** - Cloud9 also has a REPL (Read-eval-print-loop) which you can access via the Immediate Tab. Note: REPL is a simple, interactive environment that takes single expressions, evaluates them, and returns the result to the user; 
            Try the previous excercise ( i.e changing the InputString value during program execution ) but this time use the Immediate window (beside bash window) when the execution has stopped on your breakpoint.
-           -HINT- update the value as if you where writing a line of code, you must be stopped on a breakpoint for the change you make to be applied
+          
+          -HINT- update the value as if you where writing a line of code, you must be stopped on a breakpoint for the change you make to be applied
 
 Now we have successfully built and tested the Lambda Palindrome checker - let's now expose it to the world using the API-Gateway endpoint we created earlier
 
